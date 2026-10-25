@@ -3,6 +3,10 @@
 set -euo pipefail
 cd "$(dirname "$0")"
 
+# When run from Obsidian, the Terminal setup isn't loaded: find Homebrew and node (nvm) ourselves.
+export PATH="/opt/homebrew/bin:/usr/local/bin:$PATH"
+if ! command -v node >/dev/null && [ -s "$HOME/.nvm/nvm.sh" ]; then . "$HOME/.nvm/nvm.sh" >/dev/null; fi
+
 SRC="$HOME/Library/Mobile Documents/com~apple~CloudDocs/Obsidian Vault/site/"
 BLOCKED='@gmail\.com|@icloud\.com|/Users/|alirezaghasemi|Mobile Documents|Lloyds|\bLBG\b|Shiraz|marriage|alighasemi2620|alir\.ghase'
 
