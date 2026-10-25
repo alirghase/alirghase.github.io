@@ -1,7 +1,7 @@
-# Site preview
+# alirghase.github.io
 
-A preview of my personal site while it's being designed. Live at
-<https://alirghase.github.io/site-preview/>.
+My personal site: projects, the roadmap, writing, and the apps I've built.
 
-Post titles are planned, not published yet. The final site will be built with Quartz and
-published from Obsidian.
+- The pages are written as Obsidian notes. `publish.sh` copies them into `content/`, scans them for
+  anything private, builds the site with `build.mjs` and pushes.
+- GitHub Actions builds and deploys to GitHub Pages on every push to `main`.

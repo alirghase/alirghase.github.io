@@ -1,0 +1,14 @@
+{
+  "name": "alirghase-site",
+  "version": "1.0.0",
+  "description": "Personal site built from Obsidian notes",
+  "scripts": {
+    "build": "node build.mjs"
+  },
+  "type": "commonjs",
+  "dependencies": {
+    "marked": "12.0.2",
+    "yaml": "2.4.5"
+  },
+  "private": true
+}
