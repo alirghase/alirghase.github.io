@@ -2,4 +2,4 @@
 title: Projects
 headline: Projects
 ---
-Agent products I ship, each with a number that shows whether it works.
+Agent apps I've built, and how well each one works.

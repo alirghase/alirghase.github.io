@@ -1,6 +1,6 @@
 ---
 title: Ali
 eyebrow: AI engineer
-headline: I build AI agents that solve real problems, and measure whether they work.
-lede: I'm a machine learning engineer in banking, working on AI agents on Google Cloud. Alongside that, I ship agent products on free public data, each with the evals that prove it, and I build the parts underneath agents from scratch.
+headline: I build AI agents and test how often they get things right.
+lede: I'm a machine learning engineer in banking, working on AI agents on Google Cloud. Outside work I build agent apps on free public data and measure how well they do. I also build the pieces agents run on from scratch, to learn how they work.
 ---

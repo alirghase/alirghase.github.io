@@ -5,5 +5,5 @@ order: 4
 app: https://alirghase.github.io/protein-log/
 code: https://github.com/alirghase/protein-log
 ---
-A one-tap protein log for each meal, against a daily target, with a week of history. It shares Gym
-Plan's account, so both logs sync across devices.
+Logs protein and calories meal by meal against daily targets, and tracks your waist and other
+measurements. It uses the same account as Gym Plan, and both sync across devices.

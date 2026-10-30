@@ -2,20 +2,20 @@
 title: Roadmap
 headline: What I'm building, in order
 ---
-I work on two tracks, alternating every two weeks.
+I switch between two kinds of project every two weeks.
 
 ## Ship
-Agent products for real users, built fast with Google's Agent Development Kit on Google Cloud,
-using free public data. Each one starts from a real question, has evals that check its answers
-*and* the path it took, ships an MCP server, and ends with a write-up of what I found.
+Agent apps for real users, built with Google's Agent Development Kit on Google Cloud and free public
+data. Each one answers a real question. Its tests check the answers and the steps the agent took to
+get them. Each also comes with an MCP server and a write-up of the results.
 
 ## From scratch
-The parts underneath agents, built by hand with no framework, so I understand what the frameworks
-do: the agent loop, tool servers, evals, retrieval and safety. Each one is tested against a public
-benchmark or its own eval set.
+The parts agents are made of, built by hand without a framework, so I know what a framework does
+for me: the agent loop, tool servers, evals, retrieval and safety. Each is tested on a public
+benchmark or its own test set.
 
 ## The order
-Each project gets its own page when it ships, with the number that shows whether it works.
+Each project gets its own page when it ships, with its results.
 
 | When | Track | Project | Status |
 |---|---|---|---|
@@ -24,7 +24,7 @@ Each project gets its own page when it ships, with the number that shows whether
 | Dec 2026 | Ship | **Project 2:** to be announced | Planned |
 | Jan 2027 | From scratch | **Tool server:** an MCP server any agent can call, with typed tools and errors an agent can recover from | Planned |
 | Jan 2027 | Ship | **Project 3:** to be announced | Planned |
-| Feb 2027 | From scratch | **Evals platform:** testing agents on their answers *and* the path they took, with error bars | Planned |
+| Feb 2027 | From scratch | **Evals platform:** tests agents on their answers and the steps they took, with error bars | Planned |
 | Feb 2027 | Ship | **Project 4:** to be announced | Planned |
 | Mar 2027 | From scratch | **RAG assistant:** answers from documents with citations, on Google's Agent Development Kit | Planned |
 | Mar 2027 | Ship | **Project 5:** to be announced | Planned |
