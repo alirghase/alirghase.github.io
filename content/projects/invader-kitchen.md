@@ -44,6 +44,8 @@ I write the test sets before the agents.
    "edible".
 6. ForageSafe-mini: how often AI vision models on their own call a toxic lookalike edible, compared
    with the full system.
+7. Whether the team of agents beats a single agent with the same tools and checks, on safety,
+   answers, cost and time.
 
 ## Later
 - A world map of the edible invasive species in each country.
