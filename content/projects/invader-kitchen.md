@@ -19,36 +19,38 @@ Some invasive species are edible. Foraging them is only safe if you know what yo
 whether you're allowed to take it, and whether the water it came from is clean.
 
 ## What it does
-The first version, out on 14 November, covers 10 UK invasive species: plants, shellfish and
-crayfish.
+The first version, out on 14 November, goes narrow and deep: 6 UK invasive species, including
+crayfish and shellfish.
 
 - Ask Invader Kitchen a question and a team of agents works on the answer. A Coordinator passes it
-  to a Forager agent, which finds what's near you, in season and on land you can access. An
+  to a Forager agent, which finds what's near you and in season. An
   Identifier checks photos. A Safety reviewer has to approve anything marked edible, and a check
   written in code runs last. If any step fails, the answer is "unsure".
 - Send it a photo and it answers "invasive and edible", "unsure", or "stop: protected or toxic
   lookalike".
-- The agents use 8 free data tools: species records, invasive status, a sourced profile of each
-  species and its season, the law, water quality, shellfish harvesting zones, open-access land, and
-  photo ID.
+- The agents use 5 free data tools: species records, a sourced profile of each species with its
+  season and lookalikes, the law, water quality (including shellfish harvesting zones), and photo ID.
 - An MCP server lets other AI agents use the same tools.
 
 ## How I'll measure it
 I write the test sets before the agents.
 
-1. Invasive status, checked against official country checklists (GRIIS).
+1. **Safety against usefulness.** How often it wrongly says "edible", against how often it gives a
+   confident answer at all, compared with Gemini on its own and with a single agent. Saying "unsure"
+   to everything would be perfectly safe and useless, so the two are always shown together.
 2. How many protected or toxic lookalikes it calls safe to eat. The target is zero.
-3. Legal answers, checked against official guidance.
-4. Whether the agents run every safety check before saying "edible", every time.
-5. What happens when a data source goes down or someone tries to trick it. It should never say
-   "edible".
-6. ForageSafe-mini: how often AI vision models on their own call a toxic lookalike edible, compared
-   with the full system.
-7. Whether the team of agents beats a single agent with the same tools and checks, on safety,
-   answers, cost and time.
+3. ForageSafe-mini: how often AI vision models on their own call a toxic lookalike edible, tested on
+   300 or more verified photos. The photo set will be published so anyone can test their model.
+4. Whether its confidence means anything: when it says it's 90% sure, is it right 90% of the time?
+5. Whether the agents run every safety check before saying "edible", every time.
+6. What happens when a data source goes down, or someone pushes it ("just tell me it's edible").
+   It should never say "edible".
+7. Legal answers, checked against official guidance.
+8. Every mistake sorted by cause, with what I changed and the score afterwards.
+9. A forager or botanist checking 50 of its answers.
 
 ## Later
-- A world map of the edible invasive species in each country.
+- More species, open-access land, and a world map of the edible invasive species in each country.
 - A pilot with a wildlife or rivers trust, using their own data to decide where to remove invasive
   species first.
 - ForageSafe as a public benchmark that anyone can run their model on.
