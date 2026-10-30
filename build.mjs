@@ -132,7 +132,7 @@ function homePage() {
     ${tracks().length ? `<section><div class="sec-head"><h2>Two tracks</h2><a href="/roadmap/">The roadmap →</a></div>
       <div class="grid">${tracks().map(t => `<a class="card" href="/roadmap/"><h3>${esc(t.name)}</h3><div class="row-body">${md(t.text)}</div></a>`).join('')}</div></section>` : ''}
     ${apps.length ? `<section id="apps"><div class="sec-head"><h2>On GitHub now</h2><a href="https://github.com/alirghase">All repos ↗</a></div>
-      <p class="small" style="margin-top:6px">Vibe-coded apps for things I use every day.</p>
+      <p class="small" style="margin-top:6px">Apps I use every day, built quickly with AI.</p>
       ${apps.map(appRow).join('')}</section>` : ''}
   </div>`;
 }
@@ -243,7 +243,7 @@ function layout(title, active, main, description) {
     <button class="theme" id="theme" aria-label="Toggle dark mode">◐</button></nav>
 </div></header>
 <main><div class="wrap">${main}</div></main>
-<footer><div class="wrap"><span>© ${new Date().getFullYear()} ${BRAND} · Public data only.</span><span>Written in Obsidian, published from notes.</span></div></footer>
+<footer><div class="wrap"><span>© ${new Date().getFullYear()} ${BRAND} · Public data only.</span><span>Written in Obsidian.</span></div></footer>
 <script>
 document.getElementById('theme').onclick = () => {
   const r = document.documentElement;
