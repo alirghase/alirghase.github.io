@@ -1,6 +1,6 @@
 ---
 title: Which invasive species near me can I safely eat?
-name: Invader Kitchen
+name: Edulis
 status: Now
 launch: 14 Nov 2026
 what: A team of agents that checks local records, the season, the law, water quality and toxic lookalikes before it calls anything edible. If it isn't sure, it says so.
@@ -22,7 +22,7 @@ whether you're allowed to take it, and whether the water it came from is clean.
 The first version, out on 14 November, goes narrow and deep: 6 UK invasive species, including
 crayfish and shellfish.
 
-- Ask Invader Kitchen a question and a team of agents works on the answer. A Coordinator passes it
+- Ask Edulis a question and a team of agents works on the answer. A Coordinator passes it
   to a Forager agent, which finds what's near you and in season. An
   Identifier checks photos. A Safety reviewer has to approve anything marked edible, and a check
   written in code runs last. If any step fails, the answer is "unsure".

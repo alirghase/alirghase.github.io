@@ -1,7 +1,7 @@
 ---
 title: "Day N: the most interesting finding, as a sentence"
 date: 2026-11-01
-project: invader-kitchen
+project: edulis
 summary: One sentence on what this session did.
 draft: true
 ---

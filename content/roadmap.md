@@ -19,7 +19,7 @@ Each project gets its own page when it ships, with its results.
 
 | When | Track | Project | Status |
 |---|---|---|---|
-| Nov 2026 | Ship | **[[invader-kitchen\|Invader Kitchen]]:** edible invasive species near you, with a lookalike safety check | Now |
+| Nov 2026 | Ship | **[[edulis\|Edulis]]:** edible invasive species near you, with a lookalike safety check | Now |
 | Nov 2026 | From scratch | **Coding agent:** reads a codebase, edits it and runs the tests, scored on a public benchmark | Next |
 | Dec 2026 | Ship | **Project 2:** to be announced | Planned |
 | Jan 2027 | From scratch | **Tool server:** an MCP server any agent can call, with typed tools and errors an agent can recover from | Planned |

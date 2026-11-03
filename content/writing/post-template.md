@@ -1,7 +1,7 @@
 ---
 title: The finding, as a sentence (e.g. "My agent called 0 of 200 toxic lookalikes safe to eat")
 date: 2026-11-14
-project: invader-kitchen
+project: edulis
 summary: One or two sentences for the list and for link previews.
 draft: true
 ---
