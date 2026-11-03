@@ -308,8 +308,16 @@ ${posts.map(p => `<item><title>${x(p.fm.title)}</title><link>${SITE}${url(p.slug
 </channel></rss>
 `);
 
-// The old preview address (linked from LinkedIn) forwards to the home page.
-fs.mkdirSync(path.join(OUT, 'site-preview'), { recursive: true });
-fs.writeFileSync(path.join(OUT, 'site-preview', 'index.html'),
-  `<!doctype html><meta charset="utf-8"><meta http-equiv="refresh" content="0; url=/"><link rel="canonical" href="${SITE}/"><title>${BRAND}</title><a href="/">${BRAND}</a>`);
+// Old addresses forward to their new ones: the preview site (linked from LinkedIn), and
+// Invader Kitchen, renamed Edulis on 2026-11-03.
+const REDIRECTS = {
+  'site-preview': '/',
+  'projects/invader-kitchen': '/projects/edulis/',
+  'log/invader-kitchen/2026-11-01': '/log/edulis/2026-11-01/',
+};
+for (const [from, to] of Object.entries(REDIRECTS)) {
+  fs.mkdirSync(path.join(OUT, from), { recursive: true });
+  fs.writeFileSync(path.join(OUT, from, 'index.html'),
+    `<!doctype html><meta charset="utf-8"><meta http-equiv="refresh" content="0; url=${to}"><link rel="canonical" href="${SITE}${to}"><title>${BRAND}</title><a href="${to}">${BRAND}</a>`);
+}
 console.log(`Built ${notes.length} notes into ${OUT}/.`);
