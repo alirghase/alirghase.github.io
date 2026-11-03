@@ -63,6 +63,9 @@ const projects = notes.filter(n => n.rel.startsWith('projects/') && n.base !== '
 const apps = notes.filter(n => n.rel.startsWith('apps/')).sort((a, b) => (a.fm.order ?? 99) - (b.fm.order ?? 99));
 const posts = notes.filter(n => n.rel.startsWith('writing/') && n.base !== 'writing')
   .sort((a, b) => String(b.fm.date).localeCompare(String(a.fm.date)));
+// Build log: one note per work session, in log/<project>/, listed on the project's page.
+const logs = notes.filter(n => n.rel.startsWith('log/'))
+  .sort((a, b) => String(b.fm.date).localeCompare(String(a.fm.date)));
 
 // The roadmap is the markdown table in roadmap.md; the text before it is the intro.
 function roadmap() {
@@ -152,6 +155,7 @@ function projectsPage(note) {
 function projectPage(p) {
   const fm = p.fm;
   const write = posts.filter(x => x.fm.project && resolve(String(x.fm.project)) === p.slug);
+  const log = logs.filter(x => x.fm.project && resolve(String(x.fm.project)) === p.slug);
   return `<div class="col">
     <a class="back" href="/projects/">← Projects</a>
     <div class="eyebrow" style="margin-top:22px">${esc(fm.name)}</div>
@@ -168,7 +172,19 @@ function projectPage(p) {
     ${fm.app || fm.code ? `<div class="links">${fm.app ? `<a href="${fm.app}">Try it ↗</a>` : ''}${fm.code ? `<a href="${fm.code}">Code ↗</a>` : ''}</div>` : ''}
     <div class="prose">${md(p.body)}</div>
     ${write.length ? `<section><div class="sec-head"><h2>Write-ups</h2></div>${write.map(postRow).join('')}</section>` : ''}
+    ${log.length ? `<section><div class="sec-head"><h2>Build log</h2></div>${log.map(postRow).join('')}</section>` : ''}
   </div>`;
+}
+
+function logPage(p) {
+  const proj = p.fm.project ? bySlug[resolve(String(p.fm.project))] : null;
+  return `<article class="col post">
+    <a class="back" href="${proj ? url(proj.slug) : '/projects/'}">← ${esc(proj ? proj.fm.name : 'Projects')}</a>
+    <div class="eyebrow" style="margin-top:22px">Build log · ${proj ? esc(proj.fm.name) + ' · ' : ''}${esc(fmtDate(p.fm.date))}</div>
+    <h1>${esc(p.fm.title)}</h1>
+    ${p.fm.summary ? `<p class="lede">${esc(p.fm.summary)}</p>` : ''}
+    <div class="prose">${md(p.body)}</div>
+  </article>`;
 }
 
 function roadmapPage(note) {
@@ -274,6 +290,7 @@ for (const n of notes) {
   else if (n.slug === 'roadmap') { page = roadmapPage(n); active = '/roadmap/'; }
   else if (n.slug === 'writing') { page = writingPage(n); active = '/writing/'; }
   else if (n.rel.startsWith('writing/')) { page = postPage(n); active = '/writing/'; }
+  else if (n.rel.startsWith('log/')) { page = logPage(n); active = '/projects/'; }
   else { page = plainPage(n); active = `/${n.slug}/`; }
   const title = n.slug === '' ? BRAND : n.fm.name || n.fm.title;
   emit(n.slug, layout(title, active, page, n.fm.summary || n.fm.what || n.fm.lede));
