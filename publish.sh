@@ -15,6 +15,8 @@ BLOCKED="$(tr -d '\n' < .blocklist)"
 
 mkdir -p content
 rsync -a --delete --exclude "README (not published).md" --exclude ".DS_Store" "$SRC" content/
+# Drafts (and the templates) never leave this Mac: not built, and not committed to the public repo either.
+while IFS= read -r f; do rm -f "$f"; done < <(grep -rl --include="*.md" "^draft: true" content/ || true)
 
 # 1. Private strings
 if grep -rniE "$BLOCKED" content/; then
