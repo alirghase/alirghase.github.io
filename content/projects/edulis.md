@@ -7,6 +7,38 @@ what: A team of agents that checks local records, the season, the law, water qua
 who: Foragers, anglers and invasive-species groups
 ships: A web app, an MCP server and a write-up
 number: How often it calls a protected or toxic lookalike safe to eat. The target is zero
+skills_intro: "Agent engineering comes down to ten core skills. Edulis builds eight of them; the other two come with my next projects."
+skills:
+  - skill: Tool integrations
+    level: Main focus
+    learn: "Giving agents tools they can rely on: clear inputs and errors, timeouts and retries, and answering \"unsure\" when a data source is down instead of guessing."
+  - skill: Validation
+    level: Main focus
+    learn: "Checking an agent's work before it counts: a reviewer agent that can send answers back, a final check in plain code, and tests that try to push it into a dangerous answer."
+  - skill: Evals
+    level: Covered
+    learn: "Scoring the answers and the steps taken to reach them, against baselines, with the test sets written before the agents. Plus ForageSafe-mini, a published photo test set."
+  - skill: Architecture and orchestration
+    level: Covered
+    learn: "Splitting the work across a small team of agents, and measuring whether the team actually beats a single agent."
+  - skill: RAG
+    level: Covered
+    learn: "Searching official legal guidance and answering only with a citation, with the search scored on its own (did the right page come back in the top 5?)."
+  - skill: Context engineering
+    level: Covered
+    learn: "Deciding what each agent sees: a sourced profile of each species, the session so far, and only the tool results it needs."
+  - skill: Agentic tooling (MCP)
+    level: Covered
+    learn: "Serving the tools over MCP, so any other agent can plug into the same checks."
+  - skill: Prompt optimisation
+    level: Covered
+    learn: "Tuning the Safety reviewer's prompt against the eval set, and showing the score before and after."
+  - skill: Workflows
+    level: Next project
+    learn: "Multi-step work with human sign-off. The coding agent covers this, with plan and change approval."
+  - skill: Compound engineering
+    level: Next project
+    learn: "Building parts that make the next project faster. The Evals platform will be reused across everything after it."
 stack:
   - Google ADK
   - Gemini on Vertex AI
@@ -81,19 +113,6 @@ I write the test sets before the agents.
    right page come back in the top 5?
 8. Every mistake sorted by cause, with what I changed and the score afterwards.
 9. A forager or botanist checking 50 of its answers.
-
-## What it shows
-This is the kind of agent companies actually need: one that works with real data, follows rules and
-knows when to say no.
-
-- **Using tools well:** picking the right source, and coping when one fails.
-- **Agents working together:** one agent checks another's work before an answer goes out.
-- **Guardrails:** a hard stop in code, and tests that try to push it into a dangerous answer.
-- **Evals:** scoring the answers and the steps taken to reach them, with numbers and baselines,
-  not "it seems to work".
-- **Search with citations:** legal answers grounded in official guidance.
-- **MCP:** its tools are open to other agents.
-- **Shipping:** it runs on Google Cloud, real people can use it, and I write up what I found.
 
 ## Later
 - More species, open-access land, and a world map of the edible invasive species in each country.
