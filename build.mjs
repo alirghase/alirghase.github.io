@@ -81,7 +81,7 @@ const projectRow = p => `<a class="row" href="${url(p.slug)}">
   <p><span class="sub">${esc(p.fm.name)}</span> · ${esc(p.fm.what)}</p></a>`;
 
 // A project's skills box: the core skills it builds, from `skills:` in its properties.
-const skillsBox = fm => fm.skills?.length ? `<section class="skills"><h2>${esc(fm.skills_title || "Skills I'm building")}</h2>
+const skillsBox = fm => fm.skills?.length ? `<section class="skills" id="skills"><h2>${esc(fm.skills_title || "Skills I'm building")}</h2>
   ${fm.skills_intro ? `<p class="small">${inline(fm.skills_intro)}</p>` : ''}
   <ul>${fm.skills.map(k => `<li><div class="skill-head"><h3>${esc(k.skill)}</h3>${k.level ? `<span class="pill ${/main/i.test(k.level) ? 'finding-tag' : ''}">${esc(k.level)}</span>` : ''}</div>
   ${k.learn ? `<p>${inline(k.learn)}</p>` : ''}</li>`).join('')}</ul></section>` : '';
