@@ -94,6 +94,7 @@ const finding = p => p.fm.result
 
 function homePage() {
   const now = projects.find(p => /now/i.test(p.fm.status || ''));
+  const nowLog = now ? logs.filter(x => x.fm.project && resolve(String(x.fm.project)) === now.slug) : [];
   return `<div class="col">
     <div class="eyebrow">${esc(home.fm.eyebrow)}</div>
     <h1>${esc(home.fm.headline)}</h1>
@@ -104,7 +105,8 @@ function homePage() {
       ${posts.length ? posts.slice(0, 5).map(postRow).join('') : `<div class="prose small">${md(bySlug['writing']?.body)}</div>`}</section>
     ${now ? `<section><div class="sec-head"><h2>Building now</h2><a href="${url(now.slug)}">${esc(now.fm.name)} →</a></div>
       <a class="finding link" href="${url(now.slug)}"><div class="num">${esc(now.fm.launch || '')}<small>Launch</small></div>
-      <div><h3>${esc(now.fm.name)}</h3><p>${esc(now.fm.what)}</p></div></a></section>` : ''}
+      <div><h3>${esc(now.fm.name)}</h3><p>${esc(now.fm.what)}</p></div></a>
+      ${nowLog.length ? `<h3 class="small" style="margin-top:18px">Latest from the build log</h3>${nowLog.slice(0, 3).map(postRow).join('')}` : ''}</section>` : ''}
     ${learn.length ? `<section><div class="sec-head"><h2>Notes</h2><a href="/notes/">All notes →</a></div>
       ${learn.slice(0, 5).map(postRow).join('')}</section>` : ''}
   </div>`;
