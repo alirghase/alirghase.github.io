@@ -199,3 +199,14 @@ a.finding.link:hover { border-color: color-mix(in srgb, var(--accent) 60%, trans
 .post .prose h2 { margin-top: 44px; }
 .post .prose pre { margin: 22px -12px; }
 @media (max-width: 640px) { .post .prose pre { margin: 18px 0; } }
+
+.skills { background: var(--raised); border: 1px solid var(--divider); border-radius: 10px; padding: 24px 26px; margin-top: 26px; }
+.skills h2 { margin-bottom: 4px; }
+.skills > p { color: var(--muted); margin-bottom: 6px; }
+.skills ul { list-style: none; margin: 0; padding: 0; }
+.skills li { padding: 14px 0; border-bottom: 1px solid var(--divider); }
+.skills li:last-child { border-bottom: 0; padding-bottom: 0; }
+.skill-head { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
+.skills h3 { font-size: 20px; }
+.skills li p { color: var(--muted); font-size: 15px; margin-top: 4px; }
+@media (max-width: 560px) { .skills { padding: 20px 18px; } }
