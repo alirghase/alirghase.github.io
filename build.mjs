@@ -70,6 +70,8 @@ const KINDS = [['concept', 'Concepts'], ['lab', 'Labs'], ['system-design', 'Syst
 const kindName = k => (KINDS.find(([id]) => id === k) || [, 'Notes'])[1];
 const learn = notes.filter(n => n.rel.startsWith('notes/') && n.base !== 'notes')
   .sort((a, b) => String(b.fm.date).localeCompare(String(a.fm.date)));
+// Public repos: a link and one line each, from `repos:` in projects/index.md.
+const repos = bySlug['projects']?.fm.repos || [];
 
 // ---------- pieces ----------
 
@@ -86,11 +88,15 @@ const skillsBox = fm => fm.skills?.length ? `<section class="skills" id="skills"
   <ul>${fm.skills.map(k => `<li><div class="skill-head"><h3>${esc(k.skill)}</h3>${k.level ? `<span class="pill ${/main/i.test(k.level) ? 'finding-tag' : ''}">${esc(k.level)}</span>` : ''}</div>
   ${k.learn ? `<p>${inline(k.learn)}</p>` : ''}</li>`).join('')}</ul></section>` : '';
 
+const repoRow = r => `<a class="row" href="${esc(r.url)}">
+  <h3>${esc(r.name)}</h3><span class="meta"><span>GitHub ↗</span></span>
+  <p>${esc(r.what)}</p></a>`;
+
 const postRow = p => `<a class="row" href="${url(p.slug)}">
   <h3>${esc(p.fm.title)}</h3><span class="meta"><span>${esc(fmtDate(p.fm.date))}</span><span>${minutes(p.body)} min read</span></span>
   ${p.fm.summary ? `<p>${esc(p.fm.summary)}</p>` : ''}</a>`;
 
-const finding = p => p.fm.result
+const finding = p => !p.fm.number ? '' : p.fm.result
   ? `<div class="finding"><div class="num">${esc(p.fm.result)}<small>${esc(p.fm.result_label || 'Measured')}</small></div>
       <div><h3>The number</h3><p>${inline(p.fm.number)}</p></div></div>`
   : `<div class="finding"><div class="num">[N]<small>Not measured yet</small></div>
@@ -99,20 +105,16 @@ const finding = p => p.fm.result
 // ---------- pages ----------
 
 function homePage() {
-  const now = projects.find(p => /now/i.test(p.fm.status || ''));
-  const nowLog = now ? logs.filter(x => x.fm.project && resolve(String(x.fm.project)) === now.slug) : [];
   return `<div class="col">
     <div class="eyebrow">${esc(home.fm.eyebrow)}</div>
     <h1>${esc(home.fm.headline)}</h1>
     <p class="lede">${esc(home.fm.lede)}</p>
     ${contact()}
     ${home.body.trim() ? `<div class="prose">${md(home.body)}</div>` : ''}
-    <section><div class="sec-head"><h2>Writing</h2><a href="/writing/">All writing →</a></div>
-      ${posts.length ? posts.slice(0, 5).map(postRow).join('') : `<div class="prose small">${md(bySlug['writing']?.body)}</div>`}</section>
-    ${now ? `<section><div class="sec-head"><h2>Building now</h2><a href="${url(now.slug)}">${esc(now.fm.name)} →</a></div>
-      <a class="finding link" href="${url(now.slug)}"><div class="num">${esc(now.fm.launch || '')}<small>Launch</small></div>
-      <div><h3>${esc(now.fm.name)}</h3><p>${esc(now.fm.what)}</p></div></a>
-      ${nowLog.length ? `<h3 class="small" style="margin-top:18px">Latest from the build log</h3>${nowLog.slice(0, 3).map(postRow).join('')}` : ''}</section>` : ''}
+    ${projects.length || repos.length ? `<section><div class="sec-head"><h2>Projects</h2><a href="/projects/">All projects →</a></div>
+      ${projects.map(projectRow).join('')}${repos.map(repoRow).join('')}</section>` : ''}
+    ${posts.length ? `<section><div class="sec-head"><h2>Writing</h2><a href="/writing/">All writing →</a></div>
+      ${posts.slice(0, 5).map(postRow).join('')}</section>` : ''}
     ${learn.length ? `<section><div class="sec-head"><h2>Notes</h2><a href="/notes/">All notes →</a></div>
       ${learn.slice(0, 5).map(postRow).join('')}</section>` : ''}
   </div>`;
@@ -123,8 +125,10 @@ function projectsPage(note) {
     <div class="eyebrow">Projects</div>
     <h1>${esc(note.fm.headline || note.fm.title)}</h1>
     <div class="prose lede">${md(note.body)}</div>
-    <section><div class="sec-head"><h2>Agent products</h2></div>
-      ${projects.map(projectRow).join('')}</section>
+    ${projects.length ? `<section><div class="sec-head"><h2>Building now</h2></div>
+      ${projects.map(projectRow).join('')}</section>` : ''}
+    ${repos.length ? `<section><div class="sec-head"><h2>On GitHub</h2></div>
+      ${repos.map(repoRow).join('')}</section>` : ''}
   </div>`;
 }
 
@@ -219,7 +223,9 @@ function plainPage(note) {
 // ---------- layout ----------
 
 const CSS = fs.readFileSync('style.css', 'utf8');
-const NAV = [['Writing', '/writing/'], ['Notes', '/notes/'], ['Projects', '/projects/'], ['About', '/about/']];
+// Writing and Notes stay out of the menu until something in them is published.
+const NAV = [['Writing', '/writing/', posts.length], ['Notes', '/notes/', learn.length], ['Projects', '/projects/', 1], ['About', '/about/', 1]]
+  .filter(([, , n]) => n);
 
 function layout(title, active, main, description) {
   return `<!doctype html>
