@@ -7,9 +7,10 @@ cd "$(dirname "$0")"
 export PATH="/opt/homebrew/bin:/usr/local/bin:$PATH"
 if ! command -v node >/dev/null && [ -s "$HOME/.nvm/nvm.sh" ]; then . "$HOME/.nvm/nvm.sh" >/dev/null; fi
 
+# The source folder (.source) and the private words to block (.blocklist, one regex) live in
+# files that aren't committed, so this public script never names them.
+[ -s .source ] || { echo "STOP: .source is missing." >&2; exit 1; }
 SRC="$(head -n1 .source)"
-# The private words to block live in .blocklist (one regex, not committed), so this public script
-# never names them.
 [ -s .blocklist ] || { echo "STOP: .blocklist is missing." >&2; exit 1; }
 BLOCKED="$(tr -d '\n' < .blocklist)"
 
