@@ -257,7 +257,7 @@ const subscribeBox = () => `<div class="subscribe"><p>${SUBSCRIBE ? 'New write-u
 function homePage() {
   return `<div class="col">
     <header class="masthead">
-      <div class="avatar big">${BRAND[0]}</div>
+      <img class="avatar big" src="/avatar.jpg" alt="${esc(BRAND)}">
       <div class="eyebrow">${esc(BRAND)}${home.fm.eyebrow ? ` · ${esc(home.fm.eyebrow)}` : ''}</div>
       <h1>${esc(home.fm.headline)}</h1>
       <p class="lede">${esc(home.fm.lede)}</p>
@@ -349,7 +349,7 @@ function postPage(p) {
     <div class="kicker">${proj ? `<a href="${url(proj.slug)}">${esc(proj.fm.name)}</a> · ` : ''}<a href="/archive/#${p.section}">${esc(p.sectionName)}</a></div>
     <h1>${esc(p.fm.title)}</h1>
     ${p.fm.summary ? `<p class="subtitle">${esc(p.fm.summary)}</p>` : ''}
-    <div class="byline"><span class="avatar">${BRAND[0]}</span>
+    <div class="byline"><img class="avatar" src="/avatar.jpg" alt="">
       <div><div class="author">${BRAND}</div><div class="meta">${meta(p)}</div></div>
       <button type="button" class="share" data-url="${SITE}${url(p.slug)}">Copy link</button></div>
     ${p.fm.cover ? `<figure class="hero"><img src="${p.pic}" alt=""></figure>` : ''}
@@ -390,8 +390,8 @@ function layout({ title, active, main, description, image, article }) {
 <meta property="og:title" content="${esc(title)}">
 <meta property="og:description" content="${esc(desc)}">
 <meta property="og:type" content="${article ? 'article' : 'website'}">
-${image ? `<meta property="og:image" content="${SITE}${image}"><meta name="twitter:card" content="summary_large_image">` : ''}
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%E2%97%90%3C/text%3E%3C/svg%3E">
+<meta property="og:image" content="${SITE}${image || '/avatar.jpg'}"><meta name="twitter:card" content="${image ? 'summary_large_image' : 'summary'}">
+<link rel="icon" href="/avatar.jpg">
 <link rel="alternate" type="application/rss+xml" title="${BRAND}" href="/feed.xml">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -402,7 +402,7 @@ ${math ? `<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@${KATE
 </head>
 <body>
 <header class="top"><div class="wrap">
-  <a class="brand" href="/">${BRAND}</a>
+  <a class="brand" href="/"><img class="avatar tiny" src="/avatar.jpg" alt="">${BRAND}</a>
   <nav>${NAV.map(([t, u]) => `<a href="${u}"${active === u ? ' class="active"' : ''}>${t}</a>`).join('')}
     <button class="theme" id="theme" aria-label="Toggle dark mode">◐</button>${follow('btn small-btn')}</nav>
 </div></header>
@@ -457,7 +457,8 @@ fs.writeFileSync(path.join(OUT, '404.html'),
   layout({ title: 'Not found', main: `<div class="col"><h1>Nothing here.</h1><p class="lede"><a href="/">Back to the start →</a></p></div>` }));
 fs.writeFileSync(path.join(OUT, '.nojekyll'), '');
 
-// Images
+// Images, and the avatar used in the header, bylines and link previews
+fs.copyFileSync('avatar.jpg', path.join(OUT, 'avatar.jpg'));
 if (Object.keys(assets).length) fs.mkdirSync(path.join(OUT, 'assets'), { recursive: true });
 for (const [name, file] of Object.entries(assets)) fs.copyFileSync(file, path.join(OUT, 'assets', name));
 
