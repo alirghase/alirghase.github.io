@@ -466,6 +466,8 @@ fs.writeFileSync(path.join(OUT, '.nojekyll'), '');
 // Images, the avatar (header, bylines, link previews) and the home page banner
 fs.copyFileSync('avatar.jpg', path.join(OUT, 'avatar.jpg'));
 fs.copyFileSync('header.jpg', path.join(OUT, 'header.jpg'));
+// Google Search Console's ownership file(s), served at the site root
+for (const f of fs.readdirSync('.').filter(f => /^google[0-9a-f]+\.html$/.test(f))) fs.copyFileSync(f, path.join(OUT, f));
 if (Object.keys(assets).length) fs.mkdirSync(path.join(OUT, 'assets'), { recursive: true });
 for (const [name, file] of Object.entries(assets)) fs.copyFileSync(file, path.join(OUT, 'assets', name));
 
