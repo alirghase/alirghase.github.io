@@ -19,20 +19,14 @@ rsync -a --delete --exclude "README (not published).md" --exclude ".DS_Store" "$
 # Drafts (and the templates) never leave this Mac: not built, and not committed to the public repo either.
 while IFS= read -r f; do rm -f "$f"; done < <(grep -rl --include="*.md" "^draft: true" content/ || true)
 
-# 1. Private strings
-if grep -rniE "$BLOCKED" content/; then
+# 1. Remove %% comments %%, copy the images the notes use from the vault, and stop on links to
+#    notes outside site/ (they would leak private note names).
+node prepare.mjs "$(dirname "${SRC%/}")"
+
+# 2. Private strings (text files only; images can't be scanned, so check them by eye)
+if grep -rIniE "$BLOCKED" content/; then
   echo "STOP: private text found above. Fix it in the vault's site/ folder." >&2; exit 1
 fi
-
-# 2. Links to notes outside site/ (they would leak private note names)
-missing=0
-while IFS= read -r target; do
-  base="${target##*/}"
-  if [ -z "$(find content -name "$base.md" -print -quit)" ]; then
-    echo "STOP: [[$target]] links to a note that isn't in site/." >&2; missing=1
-  fi
-done < <(grep -rhoE '\[\[[^]|#\\]+' content/ | sed 's/^\[\[//' | sort -u)
-[ "$missing" -eq 0 ] || exit 1
 
 node build.mjs
 
