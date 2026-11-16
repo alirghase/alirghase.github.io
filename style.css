@@ -76,7 +76,9 @@ section { margin-top: 56px; }
 /* home: masthead */
 .masthead { text-align: center; padding: 8px 0 40px; border-bottom: 1px solid var(--divider); }
 .avatar { display: inline-block; width: 36px; height: 36px; border-radius: 50%; object-fit: cover; background: #fff; border: 1px solid var(--divider); flex: none; }
-.avatar.big { width: 88px; height: 88px; margin-bottom: 14px; }
+.avatar.big { width: 104px; height: 104px; margin: -56px 0 14px; position: relative; border: 4px solid var(--bg); }
+.banner { margin: -16px 0 0; border-radius: 10px; overflow: hidden; background: #000; }
+.banner img { display: block; width: 100%; aspect-ratio: 3 / 1; object-fit: cover; }
 .avatar.tiny { width: 26px; height: 26px; }
 .brand { display: inline-flex; align-items: center; gap: 9px; }
 .masthead h1 { margin: 10px auto 12px; max-width: 34rem; font-size: clamp(30px, 5.5vw, 42px); }

@@ -257,6 +257,7 @@ const subscribeBox = () => `<div class="subscribe"><p>${SUBSCRIBE ? 'New write-u
 function homePage() {
   return `<div class="col">
     <header class="masthead">
+      <div class="banner"><img src="/header.jpg" alt=""></div>
       <img class="avatar big" src="/avatar.jpg" alt="${esc(BRAND)}">
       <div class="eyebrow">${esc(BRAND)}${home.fm.eyebrow ? ` · ${esc(home.fm.eyebrow)}` : ''}</div>
       <h1>${esc(home.fm.headline)}</h1>
@@ -457,8 +458,9 @@ fs.writeFileSync(path.join(OUT, '404.html'),
   layout({ title: 'Not found', main: `<div class="col"><h1>Nothing here.</h1><p class="lede"><a href="/">Back to the start →</a></p></div>` }));
 fs.writeFileSync(path.join(OUT, '.nojekyll'), '');
 
-// Images, and the avatar used in the header, bylines and link previews
+// Images, the avatar (header, bylines, link previews) and the home page banner
 fs.copyFileSync('avatar.jpg', path.join(OUT, 'avatar.jpg'));
+fs.copyFileSync('header.jpg', path.join(OUT, 'header.jpg'));
 if (Object.keys(assets).length) fs.mkdirSync(path.join(OUT, 'assets'), { recursive: true });
 for (const [name, file] of Object.entries(assets)) fs.copyFileSync(file, path.join(OUT, 'assets', name));
 
