@@ -378,7 +378,7 @@ const CSS = fs.readFileSync('style.css', 'utf8');
 const NAV = [['Archive', '/archive/', posts.length], ['Projects', '/projects/', 1], ['About', '/about/', 1]]
   .filter(([, , n]) => n);
 
-function layout({ title, active, main, description, image, article }) {
+function layout({ title, active, main, description, image, article, path: here }) {
   const desc = description || home.fm.lede;
   const math = main.includes('class="katex');
   const code = main.includes('class="code"');
@@ -396,6 +396,9 @@ function layout({ title, active, main, description, image, article }) {
 <meta property="og:image" content="${SITE}${image || '/avatar.jpg'}"><meta name="twitter:card" content="${image ? 'summary_large_image' : 'summary'}">
 <link rel="icon" href="/avatar.jpg">
 <link rel="alternate" type="application/rss+xml" title="${BRAND}" href="/feed.xml">
+${here !== undefined ? `<link rel="canonical" href="${SITE}${here}"><meta property="og:url" content="${SITE}${here}">` : ''}
+${home.fm.google_site_verification ? `<meta name="google-site-verification" content="${esc(home.fm.google_site_verification)}">` : ''}
+${home.fm.goatcounter ? `<script data-goatcounter="https://${esc(home.fm.goatcounter)}.goatcounter.com/count" async src="https://gc.zgo.at/count.js"></script>` : ''}
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=Lora:ital,wght@0,400;0,500;1,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -453,9 +456,9 @@ for (const n of notes) {
   else if (n.section) { main = postPage(n); active = '/archive/'; }
   else { main = plainPage(n); active = `/${n.slug}/`; }
   const title = n.slug === '' ? BRAND : n.fm.name || n.fm.title;
-  emit(n.slug, layout({ title, active, main, description: n.fm.summary || n.fm.what || n.fm.lede, image: n.pic, article: !!n.section }));
+  emit(n.slug, layout({ title, active, main, description: n.fm.summary || n.fm.what || n.fm.lede, image: n.pic, article: !!n.section, path: url(n.slug) }));
 }
-if (posts.length) emit('archive', layout({ title: 'Archive', active: '/archive/', main: archivePage() }));
+if (posts.length) emit('archive', layout({ title: 'Archive', active: '/archive/', main: archivePage(), path: '/archive/' }));
 fs.writeFileSync(path.join(OUT, '404.html'),
   layout({ title: 'Not found', main: `<div class="col"><h1>Nothing here.</h1><p class="lede"><a href="/">Back to the start →</a></p></div>` }));
 fs.writeFileSync(path.join(OUT, '.nojekyll'), '');
@@ -465,6 +468,15 @@ fs.copyFileSync('avatar.jpg', path.join(OUT, 'avatar.jpg'));
 fs.copyFileSync('header.jpg', path.join(OUT, 'header.jpg'));
 if (Object.keys(assets).length) fs.mkdirSync(path.join(OUT, 'assets'), { recursive: true });
 for (const [name, file] of Object.entries(assets)) fs.copyFileSync(file, path.join(OUT, 'assets', name));
+
+// Sitemap and robots.txt, so search engines find every page
+const pages = [...notes.map(n => [url(n.slug), n.fm.date]), ...(posts.length ? [['/archive/']] : [])];
+fs.writeFileSync(path.join(OUT, 'sitemap.xml'), `<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+${pages.map(([u, d]) => `<url><loc>${SITE}${u}</loc>${/^\d{4}-\d{2}-\d{2}/.test(String(d ?? '')) ? `<lastmod>${String(d).slice(0, 10)}</lastmod>` : ''}</url>`).join('\n')}
+</urlset>
+`);
+fs.writeFileSync(path.join(OUT, 'robots.txt'), `User-agent: *\nAllow: /\nSitemap: ${SITE}/sitemap.xml\n`);
 
 // RSS feed of the posts (not the build log)
 const x = s => esc(s).replace(/'/g, '&apos;');
