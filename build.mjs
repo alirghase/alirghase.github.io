@@ -223,9 +223,11 @@ const projectRow = p => `<a class="row" href="${url(p.slug)}">
   <h3>${esc(p.fm.title)}</h3><span class="meta">${pill(p.fm.status || 'Planned')}${p.fm.launch ? `<span>Launch ${esc(p.fm.launch)}</span>` : ''}</span>
   <p><span class="sub">${esc(p.fm.name)}</span> · ${esc(p.fm.what)}</p></a>`;
 
-const repoRow = r => `<a class="row" href="${esc(r.url)}">
-  <h3>${esc(r.name)}</h3><span class="meta"><span>GitHub ↗</span></span>
-  <p>${esc(r.what)}</p></a>`;
+// A public repo: its live app when there is one (`app:`), a screenshot (`image:`) and the code.
+const repoRow = r => `<div class="row repo">
+  <div><h3><a href="${esc(r.app || r.url)}">${esc(r.name)}</a></h3><p>${esc(r.what)}</p>
+  <div class="row-links">${r.app ? `<a href="${esc(r.app)}">Try it ↗</a>` : ''}<a href="${esc(r.url)}">Code ↗</a></div></div>
+  ${r.image ? `<a href="${esc(r.app || r.url)}" tabindex="-1"><img class="thumb" src="${assetUrl(r.image)}" alt="" loading="lazy"></a>` : ''}</div>`;
 
 // A post in a list: section, title, subtitle, date, and its picture on the right.
 const postRow = p => `<a class="post-row" href="${url(p.slug)}" data-s="${p.section}">
@@ -310,7 +312,7 @@ function projectsPage(note) {
     <div class="prose lede">${md(note.body)}</div>
     ${projects.length ? `<section><div class="sec-head"><h2>Building now</h2></div>
       ${projects.map(projectRow).join('')}</section>` : ''}
-    ${repos.length ? `<section><div class="sec-head"><h2>On GitHub</h2></div>
+    ${repos.length ? `<section><div class="sec-head"><h2>Small apps</h2></div>
       ${repos.map(repoRow).join('')}</section>` : ''}
   </div>`;
 }
