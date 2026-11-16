@@ -353,7 +353,7 @@ function postPage(p) {
       <div><div class="author">${BRAND}</div><div class="meta">${meta(p)}</div></div>
       <button type="button" class="share" data-url="${SITE}${url(p.slug)}">Copy link</button></div>
     ${p.fm.cover ? `<figure class="hero"><img src="${p.pic}" alt=""></figure>` : ''}
-    ${toc.length >= 4 && p.fm.toc !== false ? `<details class="toc"><summary>Contents</summary><ol>${toc.map(h => `<li><a href="#${h.id}">${h.text}</a></li>`).join('')}</ol></details>` : ''}
+    ${toc.length >= 4 && minutes(p.body) >= 5 && p.fm.toc !== false ? `<details class="toc"><summary>Contents</summary><ol>${toc.map(h => `<li><a href="#${h.id}">${h.text}</a></li>`).join('')}</ol></details>` : ''}
     <div class="prose">${html}</div>
     ${subscribeBox()}
     ${newer || older ? `<nav class="pager">${older ? `<a href="${url(older.slug)}"><small>← Older</small>${esc(older.fm.title)}</a>` : '<span></span>'}${newer ? `<a href="${url(newer.slug)}"><small>Newer →</small>${esc(newer.fm.title)}</a>` : ''}</nav>` : ''}
